@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: TodoApi
+  version: "2024-03-09T21:27:09Z"
+servers:
+  - url: https://7ztszp0kf9.execute-api.us-east-2.amazonaws.com/{basePath}
+    variables:
+      basePath:
+        default: prod
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+          example: DOvz9xrAUTv6X5WpUo12z
+        description:
+          type: string
+          example: Finish coding project for client meeting
+        complete:
+          type: boolean
+          example: false
+        createdAt:
+          type: string
+          example: 2024-03-09T20:46:13.910Z
+          description: date as string n ISO format
+        modifiedAt:
+          type: string
+          example: 2024-03-09T20:46:13.910Z
+          description: date as string n ISO format
+      # Both properties are required
+      required:
+        - id
+        - description
+paths:
+  /todo/{id}:
+    get:
+      summary: Returns a Todo by id
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Todo
+          required: true
+          schema:
+            type: string
+            example: DOvz9xrAUTv6X5WpUo12z
+      responses:
+        "200":
+          description: A Todo object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: Todo id is required
+        "404":
+          description: A Todo with the specified id was not found
+        "500":
+          description: Failed to read Todo
+    put:
+      summary: Updates a Todo
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Todo to be updated
+          required: true
+          schema:
+            type: string
+            example: DOvz9xrAUTv6X5WpUo12z
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: Finish coding project for client meeting
+                complete:
+                  type: boolean
+                  example: true
+      responses:
+        "200":
+          description: Updated Todo object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: Todo id is required
+        "404":
+          description: A Todo with the specified id was not found
+        "500":
+          description: Failed to update Todo
+    delete:
+      summary: Deletes a Todo
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Todo to be deleted
+          required: true
+          schema:
+            type: string
+            example: DOvz9xrAUTv6X5WpUo12z
+      responses:
+        "200":
+          description: A message confirming the deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messsage:
+                    type: string
+                    example: "Todo deleted successfully"
+                    description: A message confirming the deletion
+        "400":
+          description: Todo id is required
+        "500":
+          description: Failed to delete Todo
+  /todo:
+    get:
+      summary: Gets all Todos in order of least recently created first.
+      responses:
+        "200":
+          description: An array of Todos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+
+        "500":
+          description: Failed to read Todo
+    post:
+      summary: Creates a new Todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Newly created Todo object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "500":
+          description: Failed to create Todo

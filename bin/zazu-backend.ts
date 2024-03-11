@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { ZazuBackendStack } from '../lib/zazu-backend-stack';
+import { ZazuBackendStack } from '../lib/stack/zazu-backend-stack';
 
 const app = new cdk.App();
 new ZazuBackendStack(app, 'ZazuBackendStack', {
