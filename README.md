@@ -31,7 +31,7 @@ Since DynamoDB doesn't allow sorting of items when performing a `SCAN` operation
 DynamoDB `SCAN` and `QUERY` are the two main operations used to fetch a collection of items. Both of them can return up to 1 MB of data per request. If the queried data is not present in the first request's response, you have to paginate through the results by recalling the same operation but with ExclusiveStartKey set to LastEvaluatedKey from the previous one until LastEvaluatedKey is null. This has been addressed when retrieving all Todos in the [lambda](lib/lambda/read-todos/index.ts).
 
 ### Error Handling:
-All API methods have been added using Lambda Proxy Integration, so the status code and response message are being set in Lambdas. Within all lambdas, appropriate HTTP status codes have been returned, e.g., 404 if a todo doesn't exist, 400 if a description has not been provided, etc.
+All API methods have been added using Lambda Proxy Integration, so the status code and response message are being set in Lambdas. Within all lambdas, appropriate HTTP status codes have been returned, e.g., 404 if a todo doesn't exist, 400 if a description has not been provided, etc. Utility functions can also be added to avoid repetitive code.
 
 ### Request Body Schema Validation
 I haven't added all sorts of request body schema validation checks for GET and POST. But one can use libraries like Zod, Yup, Joi, etc., for such a purpose.
